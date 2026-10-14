@@ -41,8 +41,8 @@
 
 <div class="body">
     <div class="news">
-        <div class="cover"><img class="news-img" src="src/img/ss1.png" alt="outlook screenshot"></div>
-        <div class="cover"><img class="news-img" src="src/img/ss2.png" alt="c3ss screenshot"></div>
+        <div class="cover main-txt news-dir"><h2><a href="https://outlooknewspapers.com/lacanadaoutlook/lc-iteam-launches-new-scholarship-website/article_08399b60-baec-4eb5-928a-a308377b90da.html">LC Outvalley News</a></h2></div>
+        <div class="cover main-txt news-dir"><h2><a href="https://c3ss.lciteam.club/scholarships">LCHS C3SS Website</a></h2></div>
     </div>
 </div>
 
@@ -194,7 +194,11 @@
 
         background-color: rgba(255, 0, 0, 0.5);
 
-        
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("src/img/ss1.png");
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .news-img {
@@ -202,6 +206,11 @@
         height: 100%;
 
         border-radius: 15px;
+    }
+
+    .news-dir {
+        font-size: 1.2rem;
+        color: #f0f0f0;
     }
 
     @keyframes color-cycle {
