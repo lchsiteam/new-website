@@ -1,13 +1,13 @@
 <script lang="ts">
-    const TARGET_SIZE = 40;
+    const TARGET_SIZE = 44;
     const STEP = 0.08;
     const COLORS = 5;
 
     let width = $state(0);
     let height = $state(0);
 
-    let cols = $derived(Math.round(width / TARGET_SIZE));
-    const rows = 5;
+    let cols = $derived(Math.max(1, Math.round(width / TARGET_SIZE)));
+    const rows = 6;
     let total = $derived(cols * rows);
 </script>
 
@@ -35,7 +35,7 @@
 </div>
 
 <style lang="css">
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,356;1,14..32,356&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,356..800;1,14..32,356&display=swap');
 
     html, body {
         margin: 0;
@@ -51,22 +51,20 @@
     }
 
     .title {
-        width: 16vw;
-        height: 8vh;
-
         margin: 0;
-        padding: 0.1em 0.4em;
+        padding: 0.4em 0.9em;
         background: #fffdf7;
         color: #1a1a1a;
-        font-size: 6vh;
 
-        border: 4px solid rgba(0, 0, 0, 0.5);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5);
+        font-size: clamp(2.25rem, 6vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        white-space: nowrap;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        border: 3px solid #1a1a1a;
+        border-radius: 14px;
+        box-shadow: 8px 8px 0 #1a1a1a;
     }
 
     .border {
@@ -76,6 +74,7 @@
     .header {
         position: relative;
         overflow: hidden;
+        min-height: 220px;
 
         margin: 10px 0px;
 
@@ -93,15 +92,17 @@
         position: absolute;
         inset: 0;
         display: grid;
+        gap: 4px;
+        padding: 4px;
         align-content: start;
+        background-color: #1e1e1e;
     }
 
     .square {
         aspect-ratio: 1;
-        box-shadow: inset 0 0 0 1px white;
+        border-radius: 6px;
+        opacity: 0.85;
         animation: color-cycle var(--duration) linear infinite backwards;
-
-        border: 4px solid rgba(0, 0, 0, 0.5);
     }
 
     @keyframes color-cycle {
