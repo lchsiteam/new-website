@@ -6,42 +6,58 @@
     let width = $state(0);
     let height = $state(0);
 
-    let cols = $derived(Math.max(1, Math.round(width / TARGET_SIZE)));
+    const FALLBACK_COLS = 48;
+    let measured = $derived(width > 0);
+
+    let cols = $derived(measured ? Math.max(1, Math.round(width / TARGET_SIZE)) : FALLBACK_COLS);
     const rows = 6;
     let total = $derived(cols * rows);
+    let duration = $derived((cols + rows) * STEP * COLORS);
 </script>
 
 
-<div class="header" bind:clientWidth={width} style:height="{rows * (width / cols)}px">
+<div class="header" bind:clientWidth={width} style:height="{measured ? rows * (width / cols) : rows * TARGET_SIZE}px">
     <div
         class="squares"
-        style:grid-template-columns="repeat({cols}, 1fr)"
-        style:--duration="{(cols + rows) * STEP * COLORS}s"
+        style:grid-template-columns={measured ? `repeat(${cols}, 1fr)` : `repeat(auto-fill, minmax(${TARGET_SIZE - 4}px, 1fr))`}
+        style:--duration="{duration}s"
         aria-hidden="true"
     >
         {#each { length: total }, i}
-            <div class="square" style:animation-delay="{((i % cols) + Math.floor(i / cols)) * STEP}s"></div>
+            <div class="square" style:animation-delay="{((i % cols) + Math.floor(i / cols)) * STEP - duration}s"></div>
         {/each}
     </div>
     <h1 class="main-txt title">LC iTeam</h1>
 </div>
 <div class="border"></div>
 <div class="dir-body">
-    <h2 class="main-txt page-dir">About</h2>
-    <h2 class="main-txt page-dir">Calendar</h2>
-    <h2 class="main-txt page-dir">Cabinet</h2>
-    <h2 class="main-txt page-dir">Resources</h2>
-    <h2 class="main-txt page-dir">Contact</h2>
+    <div class="dir-div"><h2 class="main-txt page-dir">About</h2></div>
+    <div class="dir-div"><h2 class="main-txt page-dir">Calendar</h2></div>
+    <div class="dir-div"><h2 class="main-txt page-dir">Cabinet</h2></div>
+    <div class="dir-div"><h2 class="main-txt page-dir">Resources</h2></div>
+    <div class="dir-div"><h2 class="main-txt page-dir">Contact</h2></div>
+
 </div>
+
+<div class="body">
+    <div class="news">
+        <div class="cover"><img class="news-img" src="src/img/ss1.png" alt="outlook screenshot"></div>
+        <div class="cover"><img class="news-img" src="src/img/ss2.png" alt="c3ss screenshot"></div>
+    </div>
+</div>
+
+<h3 class="main-txt">Made by iTeam VP Jeo Lee</h3>
 
 <style lang="css">
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,356..800;1,14..32,356&display=swap');
 
-    html, body {
+    :global(html, body) {
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background-color: #1e1e1e;
+        background-color: #1a1a1a;
+
+        position: relative;
     }
 
     .main-txt {
@@ -68,7 +84,12 @@
     }
 
     .border {
-        border: 2px solid black;
+        position: absolute;
+        background-image: linear-gradient(to bottom, transparent, #1a1a1a);
+
+        width: 100%;
+        height: 200px;
+        top: 70px;
     }
 
     .header {
@@ -76,11 +97,12 @@
         overflow: hidden;
         min-height: 220px;
 
-        margin: 10px 0px;
 
         display: flex;
         justify-content: center;
         align-items: center;
+
+        margin-bottom: 35px;
     }
 
     .title {
@@ -102,7 +124,84 @@
         aspect-ratio: 1;
         border-radius: 6px;
         opacity: 0.85;
-        animation: color-cycle var(--duration) linear infinite backwards;
+        animation: color-cycle var(--duration) linear infinite;
+    }
+
+    .dir-body {
+        display: flex;
+
+        justify-content: center;
+
+        margin-top: 30px;
+    }
+
+    .dir-div {
+        width: 150px;
+        height: 50px;
+        background-color: #f0f0f0;
+        
+        border-radius: 15px; 
+
+        outline: 4px solid #0076ff; 
+        
+        outline-offset: 4px; 
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .body {
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-top: 45px;
+    }
+
+    .news {
+        width: 65vw;
+        height: 40vh;
+        background-color: #f0f0f0;
+
+        border-radius: 50px; 
+
+        outline: 4px solid #0076ff; 
+
+        outline-offset: 4px; 
+
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cover {
+        width: 40%;
+        height: 75%;
+        margin: 0px 35px;
+
+        outline: 5px solid #EB5231;
+
+        outline-offset: 4px;
+
+        border-radius: 15px;
+
+        background-color: rgba(255, 0, 0, 0.5);
+
+        
+    }
+
+    .news-img {
+        width: 100%;
+        height: 100%;
+
+        border-radius: 15px;
     }
 
     @keyframes color-cycle {
