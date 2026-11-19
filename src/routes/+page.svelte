@@ -2,7 +2,7 @@
     const TARGET_SIZE = 44;
     const STEP = 0.08;
     const COLORS = 5;
-
+//hi rainier cheng
     let width = $state(0);
     let height = $state(0);
 
